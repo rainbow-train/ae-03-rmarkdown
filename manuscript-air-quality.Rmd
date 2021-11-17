@@ -3,9 +3,57 @@ title: "Manuscript Air Quality"
 author: "Lars Schöbitz"
 date: "17/11/2021"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Background
+
+This exercise is part of a workshop by the Global Health Engineering Group at ETH Zurich.
+
+```{r}
+
+library(readr)
+library(dplyr)
+library(DT)
+library(lubridate)
+
+```
+
+# Data
+
+```{r}
+
+data_link <- "https://raw.githubusercontent.com/Global-Health-Engineering/manuscript-hospital-air-quality/main/data/intermediate/malawi-hospitals-air-quality.csv"
+
+data_in <- read_csv(data_link)
+
+```
+
+# Exercise
+
+```{r transform-summary}
+
+dat_in_sum_day <- data_in %>% 
+  filter(value <= 1000) %>% 
+  mutate(date = as_date(date_time)) %>% 
+  group_by(date, location, indicator) %>% 
+  summarise(min = min(value),
+            median = median(value),
+            mean = mean(value),
+            sd = sd(value),
+            max = max(value))
+
+```
+
+```{r}
+
+dat_in_sum_day %>%
+  datatable()
+
 ```
 
