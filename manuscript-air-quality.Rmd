@@ -56,7 +56,7 @@ dat_in_sum_day <- data_in %>%
 
 ```{r}
 
-dat_in_sum_day %>%
+dat_in_sum_day %>% 
   datatable()
 
 ```
